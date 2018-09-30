@@ -33,7 +33,16 @@ if (freelancer && freelancer.freelance) {
 				}
 			}
 			// output result
-			console.log(JSON.stringify(output, null, 4));
+			// console.log(JSON.stringify(output, null, 4));
+			const resultFile = './exercise/result.json';
+			fs.writeFile(resultFile, JSON.stringify(output, null, 4), (err) => {
+				if (err) {
+					console.log(`Error while writing output: ${err}, process ending...`);
+					process.exit(1);
+				} else {
+					console.log(`Output result in ${resultFile}`);
+				}
+			});
 		}
 	}
 }
