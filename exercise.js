@@ -1,4 +1,6 @@
 const fs = require('fs');
+const checkerService = require('./src/app/services/checker/checker.service');
+const skillService = require('./src/app/services/skill/skill.service');
 
 const freelancerFile = './exercise/freelancer.json'
 
@@ -11,5 +13,27 @@ let freelancer = fs.readFileSync(freelancerFile, 'utf8');
 freelancer = JSON.parse(freelancer);
 
 // compute all skills duration
+if (freelancer && freelancer.freelance) {
+	const professionalExperiences = freelancer.freelance.professionalExperiences;
+	if (!professionalExperiences) process.exit(1);
+	else {
+		const issues = professionalExperiences.reduce((issues, professionalExperience) => {
+			issues = issues.concat(checkerService.checkProfessionalExperience(professionalExperience));
+			return issues;
+		}, []);
 
-// output result
+		if (issues.length > 0) {
+			process.exit(1);
+		} else {
+			const computedSkills = skillService.computeSkillsWithDurationByMonth(freelancer.freelance.professionalExperiences);
+			const output = {
+				freelance: {
+					id: freelancer.freelance.id,
+					computedSkills
+				}
+			}
+			// output result
+			console.log(JSON.stringify(output, null, 4));
+		}
+	}
+}

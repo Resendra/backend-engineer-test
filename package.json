@@ -2,9 +2,18 @@
   "name": "comet-backend-engineer-test",
   "version": "1.0.0",
   "description": "comet backend engineer test",
-  "dependencies": {},
+  "dependencies": {
+    "moment": "2.22.2"
+  },
+  "devDependencies": {
+    "jasmine": "3.2.0"
+  },
   "engines": {
     "node": "8.4.0"
+  },
+  "scripts": {
+    "start": "node exercise.js",
+    "test": "jasmine"
   },
   "author": "comet team",
   "license": "MIT",
